@@ -58,4 +58,15 @@ public class DiaryController {
     void updateDiary(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestBody String text) {
         diaryService.updateDiary(date, text);
     }
+
+
+    /**
+     * 일기 삭제 API
+     * 파라미터: 작성일
+     * 날짜 포맷 형식: yyyy-MM-dd
+     */
+    @DeleteMapping("/delete/diary")
+    void deleteDiary(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        diaryService.deleteDiary(date);
+    }
 }

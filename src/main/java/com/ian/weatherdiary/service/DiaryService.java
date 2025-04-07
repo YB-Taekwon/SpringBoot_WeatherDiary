@@ -136,4 +136,10 @@ public class DiaryService {
         nowDiary.setText(text);
         diaryRepository.save(nowDiary);
     }
+
+
+    // 일기 삭제
+    public void deleteDiary(LocalDate date) {
+        diaryRepository.deleteAllByDate(date);
+    }
 }
