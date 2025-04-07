@@ -40,6 +40,7 @@ public class DiaryController {
      * 범위 내 날짜의 일기 조회 API
      * 파라미터: 범위 시작일, 범위 마감일
      * 날짜 범위: startDate ~ endDate 사이의 날짜
+     * 날짜 포맷 형식: yyyy-MM-dd
      */
     @GetMapping("read/diaries")
     List<Diary> readDiaries(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -47,4 +48,14 @@ public class DiaryController {
         return diaryService.readDiaries(startDate, endDate);
     }
 
+
+    /**
+     * 일기 수정 API
+     * 파라미터: 작성일, 수정 내용
+     * 날짜 포맷 형식: yyyy-MM-dd
+     */
+    @PutMapping("/update/diary")
+    void updateDiary(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestBody String text) {
+        diaryService.updateDiary(date, text);
+    }
 }
