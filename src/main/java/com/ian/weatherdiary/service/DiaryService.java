@@ -13,13 +13,11 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -101,7 +99,6 @@ public class DiaryService {
     private Weather getWeatherFromApi() {
         // Open Weather Map 데이터 받아오기
         String weatherString = getWeatherString();
-        log.info(weatherString);
 
         // 받아온 날씨 데이터f를 JSON 형식으로 파싱하기
         Map<String, Object> parseWeather = parseWeather(weatherString);
@@ -122,6 +119,7 @@ public class DiaryService {
     @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     public void saveWeatherDate() {
+        log.info("Saving weather date...");
         weatherRepository.save(getWeatherFromApi());
     }
 
@@ -150,16 +148,19 @@ public class DiaryService {
     // 일기 작성
     @Transactional
     public void createDiary(LocalDate date, String text) {
+        log.info("Started to create diary.");
         // 1. DB에서 날씨 데이터 가져오기
         Weather weather = getWeather(date);
 
         // 2. DB에 저장하기
         saveDiary(date, text, weather);
+        log.info("Finished to create diary.");
     }
 
 
     // 특정 날짜 일기 조회
     public List<Diary> readDiary(LocalDate date) {
+        log.debug("read diary");
         return diaryRepository.findAllByDate(date);
     }
 
