@@ -2,6 +2,7 @@ package com.ian.weatherdiary.service;
 
 import com.ian.weatherdiary.domain.Diary;
 import com.ian.weatherdiary.domain.Weather;
+import com.ian.weatherdiary.error.DateException;
 import com.ian.weatherdiary.repository.DiaryRepository;
 import com.ian.weatherdiary.repository.WeatherRepository;
 import lombok.RequiredArgsConstructor;
@@ -161,6 +162,10 @@ public class DiaryService {
     // 특정 날짜 일기 조회
     public List<Diary> readDiary(LocalDate date) {
         log.debug("read diary");
+
+        if (date.isAfter(LocalDate.ofYearDay(2025, 1)))
+            throw new DateException();
+
         return diaryRepository.findAllByDate(date);
     }
 

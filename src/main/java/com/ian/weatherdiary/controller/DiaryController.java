@@ -14,6 +14,7 @@ import java.util.List;
 public class DiaryController {
     private final DiaryService diaryService;
 
+
     /**
      * 일기 작성 API
      * 파라미터: 작성일, 작성 내용
