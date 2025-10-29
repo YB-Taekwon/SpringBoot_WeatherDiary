@@ -24,6 +24,10 @@ public class Diary {
 
     private String content;
 
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Weather weather;
 }

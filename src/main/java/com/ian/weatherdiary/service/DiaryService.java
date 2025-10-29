@@ -2,6 +2,7 @@ package com.ian.weatherdiary.service;
 
 import com.ian.weatherdiary.domain.Diary;
 import com.ian.weatherdiary.domain.Weather;
+import com.ian.weatherdiary.dto.DiaryEditRequestDto;
 import com.ian.weatherdiary.dto.diary.DiaryRequestDto;
 import com.ian.weatherdiary.dto.diary.DiaryResponseDto;
 import com.ian.weatherdiary.dto.diary.DiarySearchDto;
@@ -42,6 +43,16 @@ public class DiaryService {
         Pageable pageable = requestDto.toPageable();
         return diaryRepository.searchDiaries(requestDto, pageable)
                 .map(DiaryResponseDto::from);
+    }
+
+    @Transactional
+    public DiaryResponseDto updateDiary(String diaryId, DiaryEditRequestDto requestDto) {
+        Diary diary = diaryRepository.findByDiaryId(diaryId)
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 일기를 찾을 수 없습니다."));
+
+        diary.updateContent(requestDto.getContent());
+
+        return DiaryResponseDto.from(diary);
     }
 
     private String generateDiaryId() {
