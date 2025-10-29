@@ -47,15 +47,24 @@ public class DiaryService {
 
     @Transactional
     public DiaryResponseDto updateDiary(String diaryId, DiaryEditRequestDto requestDto) {
-        Diary diary = diaryRepository.findByDiaryId(diaryId)
-                .orElseThrow(() -> new IllegalArgumentException("일치하는 일기를 찾을 수 없습니다."));
-
+        Diary diary = findDiaryByDiaryId(diaryId);
         diary.updateContent(requestDto.getContent());
 
         return DiaryResponseDto.from(diary);
     }
 
+    @Transactional
+    public void deleteDiary(String diaryId) {
+        Diary diary = findDiaryByDiaryId(diaryId);
+        diaryRepository.delete(diary);
+    }
+
     private String generateDiaryId() {
         return UUID.randomUUID().toString();
+    }
+
+    private Diary findDiaryByDiaryId(String diaryId) {
+        return diaryRepository.findByDiaryId(diaryId)
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 일기를 찾을 수 없습니다."));
     }
 }

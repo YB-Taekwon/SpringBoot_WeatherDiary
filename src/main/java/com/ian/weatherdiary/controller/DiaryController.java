@@ -17,7 +17,7 @@ public class DiaryController {
 
     public final DiaryService diaryService;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createDiary(
             @RequestBody DiaryRequestDto requestDto
     ) {
@@ -26,16 +26,23 @@ public class DiaryController {
         return ResponseEntity.ok(diary);
     }
 
-    @PostMapping
+    @PostMapping("/search")
     public ResponseEntity<?> getDiaries(@RequestBody DiarySearchDto requestDto) {
         return ResponseEntity.ok(diaryService.getDiaries(requestDto));
     }
 
-    @PatchMapping("/{diaryId}/update/content")
+    @PatchMapping("/{diaryId}/content")
     public ResponseEntity<?> updateDiary(
             @PathVariable String diaryId,
             @Valid @RequestBody DiaryEditRequestDto requestDto
     ) {
         return ResponseEntity.ok(diaryService.updateDiary(diaryId, requestDto));
+    }
+
+    @DeleteMapping("/{diaryId}")
+    public ResponseEntity<?> deleteDiary(@PathVariable String diaryId) {
+        diaryService.deleteDiary(diaryId);
+
+        return ResponseEntity.ok("일기가 성공적으로 삭제되었습니다.");
     }
 }
