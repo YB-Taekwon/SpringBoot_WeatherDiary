@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @Builder
 public class DiaryResponseDto {
 
+    private String diaryId;
     private LocalDate date;
     private String content;
     private String weather;
@@ -22,6 +23,7 @@ public class DiaryResponseDto {
 
     public static DiaryResponseDto from(Diary diary) {
         return DiaryResponseDto.builder()
+                .diaryId(diary.getDiaryId())
                 .date(diary.getWeather().getDate())
                 .content(diary.getContent())
                 .weather(diary.getWeather().getWeather())

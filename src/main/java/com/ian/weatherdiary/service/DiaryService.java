@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class DiaryService {
@@ -22,9 +24,11 @@ public class DiaryService {
     @Transactional
     public DiaryResponseDto createDiary(DiaryRequestDto requestDto) {
         Weather weather = weatherService.getWeather(requestDto.getDate());
+        String diaryId = generateDiaryId();
 
         Diary diary = diaryRepository.save(
                 Diary.builder()
+                        .diaryId(diaryId)
                         .content(requestDto.getContent())
                         .weather(weather)
                         .build()
@@ -38,5 +42,9 @@ public class DiaryService {
         Pageable pageable = requestDto.toPageable();
         return diaryRepository.searchDiaries(requestDto, pageable)
                 .map(DiaryResponseDto::from);
+    }
+
+    private String generateDiaryId() {
+        return UUID.randomUUID().toString();
     }
 }

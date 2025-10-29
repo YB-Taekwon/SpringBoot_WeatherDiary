@@ -19,6 +19,9 @@ public class Diary {
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
+    private String diaryId;
+
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
