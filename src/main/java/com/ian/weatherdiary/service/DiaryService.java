@@ -17,6 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class DiaryService {
 
     private final DiaryRepository diaryRepository;
@@ -38,11 +39,16 @@ public class DiaryService {
         return DiaryResponseDto.from(diary);
     }
 
-    @Transactional(readOnly = true)
     public Page<DiaryResponseDto> getDiaries(DiarySearchDto requestDto) {
         Pageable pageable = requestDto.toPageable();
         return diaryRepository.searchDiaries(requestDto, pageable)
                 .map(DiaryResponseDto::from);
+    }
+
+    public DiaryResponseDto getDiary(String diaryId) {
+        Diary diary = findDiaryByDiaryId(diaryId);
+
+        return DiaryResponseDto.from(diary);
     }
 
     @Transactional

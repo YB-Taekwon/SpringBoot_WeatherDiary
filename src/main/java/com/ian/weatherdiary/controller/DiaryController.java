@@ -2,7 +2,6 @@ package com.ian.weatherdiary.controller;
 
 import com.ian.weatherdiary.dto.DiaryEditRequestDto;
 import com.ian.weatherdiary.dto.diary.DiaryRequestDto;
-import com.ian.weatherdiary.dto.diary.DiaryResponseDto;
 import com.ian.weatherdiary.dto.diary.DiarySearchDto;
 import com.ian.weatherdiary.service.DiaryService;
 import jakarta.validation.Valid;
@@ -21,14 +20,17 @@ public class DiaryController {
     public ResponseEntity<?> createDiary(
             @RequestBody DiaryRequestDto requestDto
     ) {
-        DiaryResponseDto diary = diaryService.createDiary(requestDto);
-
-        return ResponseEntity.ok(diary);
+        return ResponseEntity.ok(diaryService.createDiary(requestDto));
     }
 
     @PostMapping("/search")
-    public ResponseEntity<?> getDiaries(@RequestBody DiarySearchDto requestDto) {
+    public ResponseEntity<?> getAllDiaries(@RequestBody DiarySearchDto requestDto) {
         return ResponseEntity.ok(diaryService.getDiaries(requestDto));
+    }
+
+    @GetMapping("/{diaryId}")
+    public ResponseEntity<?> getDiary(@PathVariable String diaryId) {
+        return ResponseEntity.ok(diaryService.getDiary(diaryId));
     }
 
     @PatchMapping("/{diaryId}/content")
