@@ -1,4 +1,4 @@
-package com.ian.weatherdiary.config;
+package com.ian.weatherdiary.global.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
